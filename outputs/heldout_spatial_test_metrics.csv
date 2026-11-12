@@ -1,0 +1,2 @@
+MAE_points,RMSE_points,R2,selected_model,train_rows_used,test_rows,test_blocks
+0.4828946656099519,0.81159145752439,0.9970705511517998,XGBoost,30000,54294,25

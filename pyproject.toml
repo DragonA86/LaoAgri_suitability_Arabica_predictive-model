@@ -1,0 +1,13 @@
+[project]
+name = "laoagri-arabica-suitability"
+version = "3.0.0"
+description = "Streamlit interface for Lao PDR Arabica coffee suitability screening"
+requires-python = ">=3.11,<3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"

@@ -1,0 +1,102 @@
+{
+  "project": "LaoAgri-Suitability",
+  "app_title": "Arabica Land Suitability Explorer",
+  "target": "V3 Weighted Geometric Screening Index 0-100 (pseudo-target, not field truth)",
+  "study_area": "Lao PDR; Dataset V2 AOI derived from FAO GAUL 2024",
+  "dataset_rows": 287066,
+  "model_name": "XGBoost",
+  "model_features": [
+    "elevation_m",
+    "temperature_c",
+    "rainfall_mm_year",
+    "soil_ph",
+    "slope_pct",
+    "bio14_driest_month_mm",
+    "bio15_seasonality_cv",
+    "soc_0_30cm_g_kg",
+    "aspect_sin",
+    "aspect_cos",
+    "aspect_is_defined"
+  ],
+  "weights_percent": {
+    "elevation": 12.000000000000002,
+    "temperature": 28.0,
+    "rainfall": 20.0,
+    "bio14": 5.0,
+    "soil_ph": 15.0,
+    "soc": 5.0,
+    "slope": 12.0,
+    "aspect": 3.0
+  },
+  "spatial_block_size_degrees": 0.5,
+  "spatial_cv_folds": 5,
+  "cv_train_cap_per_fold": 8000,
+  "cv_summary": [
+    {
+      "model": "XGBoost",
+      "Mean_MAE": 0.643403270842753,
+      "SD_MAE": 0.0857684193149981,
+      "Mean_RMSE": 1.092977991338731,
+      "SD_RMSE": 0.2865436300610343,
+      "Mean_R2": 0.9950800583223924,
+      "SD_R2": 0.0026222952713165
+    },
+    {
+      "model": "HistGradientBoosting",
+      "Mean_MAE": 0.6127410839051686,
+      "SD_MAE": 0.0970030673525285,
+      "Mean_RMSE": 1.1063737027825868,
+      "SD_RMSE": 0.3197964881109202,
+      "Mean_R2": 0.9948788432259406,
+      "SD_R2": 0.0029526828677652
+    },
+    {
+      "model": "RandomForest",
+      "Mean_MAE": 0.9760272371196352,
+      "SD_MAE": 0.138500128303036,
+      "Mean_RMSE": 1.5981466468151773,
+      "SD_RMSE": 0.4096971776985968,
+      "Mean_R2": 0.9895282506621952,
+      "SD_R2": 0.005487063856766
+    },
+    {
+      "model": "Ridge",
+      "Mean_MAE": 6.998827065642805,
+      "SD_MAE": 0.4091991195249445,
+      "Mean_RMSE": 8.998856533704952,
+      "SD_RMSE": 0.6807448639170851,
+      "Mean_R2": 0.6830320904932388,
+      "SD_R2": 0.0785525426640291
+    },
+    {
+      "model": "DummyMean",
+      "Mean_MAE": 15.215334944829584,
+      "SD_MAE": 1.334689438205548,
+      "Mean_RMSE": 16.802885569001045,
+      "SD_RMSE": 1.2438084341265871,
+      "Mean_R2": -0.0787629390641865,
+      "SD_R2": 0.092725796961769
+    }
+  ],
+  "heldout_spatial_test_metrics": {
+    "MAE_points": 0.4828946656099519,
+    "RMSE_points": 0.81159145752439,
+    "R2": 0.9970705511517998,
+    "selected_model": "XGBoost",
+    "train_rows_used": 30000,
+    "test_rows": 54294,
+    "test_blocks": 25
+  },
+  "final_model_training_rows": 50000,
+  "random_seed": 42,
+  "score_floor": 1.0,
+  "selection_rule": "Lowest mean RMSE across 5 spatial GroupKFold folds; MAE is secondary diagnostic.",
+  "limitations": [
+    "The target y is constructed from the environmental predictors; metrics describe emulation of the V3 scoring rule, not independently validated Arabica suitability.",
+    "No Lao farm-level Arabica GPS or yield observations are used as labels.",
+    "Elevation and temperature remain highly collinear; their combined target weight is 40%, but both remain model predictors.",
+    "SOC is a within-Laos percentile score, not an absolute agronomic threshold.",
+    "BIO15 is retained as a predictor/diagnostic but excluded from target scoring.",
+    "Grid cells are approximately 928 m and support regional screening, not plot-level decisions."
+  ]
+}
